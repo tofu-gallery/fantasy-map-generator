@@ -146,3 +146,8 @@ On 2026-10-23, on macOS (arm64), from this branch:
   15 states, 649 towns), with labels, borders and the upstream "what's new" dialog showing. There were no console
   errors and no failed requests. The only other host requested was `fonts.gstatic.com`. Google Analytics did not
   load. No service worker registered, because 127.0.0.1 counts as local. The server was stopped afterwards.
+- Tofu's import, simulated on the pushed branch
+  (`simulate_import.py --one tofu-gallery/fantasy-map-generator tofu site yes`): 414 files kept under `site`, none
+  dropped, and every file the pages reference is present.
+- GitHub's archive of the branch just before this note: 40,740,021 bytes (the limit is 50 MB), with 2,022 files and
+  68,717,365 bytes unpacked (the limits are 20,000 files and 250 MB).
