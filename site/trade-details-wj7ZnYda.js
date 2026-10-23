@@ -1,0 +1,22 @@
+import{C as e,r as t}from"./index-CuUJKJN8.js";import{z as n}from"./utils-394NS37_.js";import{K as r,n as i,r as a}from"./layers-CpGI7aJd.js";import{i as o}from"./emblems-generator-B3pPl-l-.js";import{r as s}from"./unitUtils-B91DAWIJ.js";import{i as c,l}from"./dialog-helpers-kMHr89OS.js";import{i as u,r as d}from"./app-C3meBrse.js";import{a as f,i as p,n as m,r as h}from"./table-CEa9eCSl.js";var g,_=[],v=`tradeDetails`,y={my:`right top`,at:`right-10 top+10`,of:`svg`,collision:`fit`},b=[{key:`icon`,width:`2.5em`,permanent:!0},{key:`good`,label:t(`Good`),width:`10em`,permanent:!0,sortBy:e=>e.good,sortType:`alpha`},{key:`units`,label:t(`Units`),width:`5em`,sortBy:e=>e.units,defaultSort:`desc`},{key:`price`,label:t(`Price`),width:`5.5em`,sortBy:e=>e.price},{key:`value`,label:t(`Value`),width:`3.6em`,permanent:!0,sortBy:e=>e.value}],x=h({getData:w,onUpdate:T});function S(e){if(o.retry(`goods`),!e?.deals.length)return;g=e;let n=pack.burgs[e.startBurgId],r=pack.burgs[e.endBurgId];if(!n||!r)return;let i=TradeAnimation.findRoutePath(n.cell,r.cell);i&&(_=i.points,C(),x.reset(),a(i.points),$(`#${v}`).dialog({title:t(`Trade: {{- from}} to {{- to}}`,{from:pack.burgs[e.startBurgId]?.name,to:pack.burgs[e.endBurgId]?.name}),resizable:!1,position:y,close:D}))}function C(){c(v);let e=`<div id="${v}" class="dialog stable editorDialog">
+      <div>
+        <div id="tradeDetailsSummary" class="totalLine"></div>
+        ${p({dialogId:v,columns:b})}
+        <div id="tradeDetailsBody" class="table" style="max-height:30em"></div>
+        <div id="tradeDetailsFooter" class="totalLine">
+          <div style="margin-left: 5px">${t(`Distance`)}: <span id="tradeDetailsFooterDistance">0</span></div>
+          <div data-col="units" style="margin-left: 12px" data-tip="${t(`Total traded units`)}">${t(`Units`)}: <span id="tradeDetailsFooterUnits">0</span></div>
+          <div data-col="value" style="margin-left: 12px" data-tip="${t(`Total deal value`)}">${t(`Value`)}: <span id="tradeDetailsFooterValue">0</span></div>
+        </div>
+      </div>
+  </div>`;n(`dialogs`).insertAdjacentHTML(`beforeend`,e),d(v,x.reset),m({dialogId:v,columns:b,onUpdate:()=>l(v,{width:`fit-content`,position:y})}),n(`tradeDetailsSummary`).addEventListener(`click`,e=>{let t=e.target.closest(`[data-zoom]`);if(!g||!t)return;let n=g[t.dataset.zoom===`start`?`startBurgId`:`endBurgId`],r=pack.burgs[n];r&&zoomTo(r.x,r.y,8,1500)})}function w(){if(!g)return[];let e=new Map;for(let t of g.deals){let n=e.get(t.good)??{units:0,value:0};n.units+=t.units,n.value+=t.units*t.price,e.set(t.good,n)}let t=Array.from(e,([e,{units:t,value:n}])=>{let r=Goods.get(e);return r?{goodId:e,good:r.name,units:t,price:t?n/t:0,value:n}:null}).filter(e=>e!==null);return u(v,t,b)}function T(i){if(!g)return;let a=pack.burgs[g.startBurgId],o=pack.burgs[g.endBurgId],c=E(g.deals[0],a,`from`),u=E(g.deals[0],o,`to`);n(`tradeDetailsSummary`).innerHTML=`
+    <span><b>${t(`Seller`)}</b>: ${a?.name} ${c} <span class="icon-dot-circled pointer" data-zoom="start" data-tip="${t(`Zoom to start`)}"></span></span>
+    <span style="margin-left:5px"><b>${t(`Buyer`)}</b>: ${o?.name} ${u} <span class="icon-dot-circled pointer" data-zoom="end" data-tip="${t(`Zoom to end`)}"></span></span>`;let d=i.all.reduce((e,t)=>e+t.units,0),p=i.all.reduce((e,t)=>e+t.value,0),m=i.rows.map(({goodId:n,units:i,price:a,value:o})=>{let c=Goods.get(n);return`<div class="states tradeDeal" data-good="${c.name}" data-units="${e(i,2)}" data-price="${a}" data-value="${e(o,2)}">
+    <svg data-col="icon" data-tip="${t(`Good icon`)}" width="2em" height="2em" class="goodIcon">
+      ${r(c)}
+    </svg>
+    <div data-col="good" data-tip="${t(`Name`)}" class="goodName">${c.name}</div>
+    <div data-col="units" class="goodUnits">${e(i,2)}</div>
+    <div data-col="price" class="goodPrice">${s(e(a,2))}</div>
+    <div data-col="value" class="goodValue">${s(e(o,2))}</div>
+  </div>`}),h=e(_.reduce((e,t,n)=>{if(n===0)return 0;let r=_[n-1];return e+Math.hypot(t[0]-r[0],t[1]-r[1])},0),2);n(`tradeDetailsBody`).innerHTML=m.join(``),n(`tradeDetailsFooterDistance`).innerHTML=`${e(h*options.map.units.distance.scale)} ${options.map.units.distance.unit}`,n(`tradeDetailsFooterUnits`).innerHTML=String(e(d,2)),n(`tradeDetailsFooterValue`).innerHTML=s(p),f(n(`tradeDetailsFooter`),i,x.goto),l(v,{width:`fit-content`,position:y})}function E(e,n,r){return(r===`from`?e.sellerType:e.buyerType)===`market`?t(`Market`):n.group||t(`Burg`)}function D(){i(),_=[],$(`#${v}`).dialog(`destroy`),n(v).remove()}var O={open:S};export{O as TradeDetails};

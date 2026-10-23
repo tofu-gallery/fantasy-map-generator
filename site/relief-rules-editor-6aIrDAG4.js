@@ -1,0 +1,31 @@
+import{f as e,n as t,r as n,x as r}from"./index-CuUJKJN8.js";import{z as i}from"./utils-394NS37_.js";import{p as a}from"./unitUtils-B91DAWIJ.js";import{i as o,l as s,r as c}from"./dialog-helpers-kMHr89OS.js";import{i as l,n as u}from"./table-CEa9eCSl.js";import{i as d,t as f}from"./relief-previews-9w_Tsy0M.js";import{n as p,t as m}from"./relief-pool-editor-DyxWu2Zi.js";import{n as h,t as g}from"./limitation-picker-DxKnNDnC.js";var _=`reliefRulesEditor`,v={my:`center`,at:`center`,of:`svg`,collision:`fit`},y=[{key:`reorder`,width:`1.1em`,permanent:!0},{key:`name`,label:n(`Name`),width:`10em`,permanent:!0},{key:`height`,label:n(`Height`),width:`7em`,tip:n(`Height range, 20 (sea level) to 100`),permanent:!0},{key:`temperature`,label:n(`Temperature`),width:`7em`,tip:n(`Temperature range in °C`)},{key:`biomes`,label:n(`Biomes`),width:`7em`,tip:n(`Biomes the rule claims`)},{key:`size`,label:n(`Size`),width:`7em`,tip:n(`Icon size at the lowest height, growing with height. Each pool entry scales it`)},{key:`relief`,label:n(`Relief`),width:`8em`,permanent:!0},{key:`remove`,width:`1.2em`,permanent:!0}],b=`
+  #${_} .states [data-col] input { text-align: center; -moz-appearance: textfield; }
+  #${_} .states [data-col] input::-webkit-inner-spin-button { display: none; }
+  #${_} .states [data-col="name"] input { text-align: left; }
+  #${_} .rulePool { display: inline-flex; align-items: center; gap: .15em; font-size: 2.2em; line-height: 1; }
+  #${_} .rulePool svg { width: 1em; height: 1em; overflow: visible; pointer-events: none; }
+  #${_} .rulePool small { font-size: .35em; opacity: .7; }
+  #${_} .ruleBiomes { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  #${_} .empty { margin: .4em; font-style: italic; opacity: .7; }
+`;function x(){o(_),i(`dialogs`).insertAdjacentHTML(`beforeend`,`<div id="${_}" class="dialog editorDialog">
+      <style>${b}</style>
+      ${l({dialogId:_,columns:y})}
+      <div id="${_}Body" class="table"></div>
+      <div class="totalLine">
+        <div style="margin-left: 4px">${n(`First match wins. Land no rule claims takes its biome's relief pool`)}</div>
+      </div>
+      <div class="editorToolbar">
+        <button id="${_}Add" data-tip="${n(`Add a rule, checked last`)}" class="icon-plus"></button>
+        <button id="${_}Restore" data-tip="${n(`Restore the default hills and mountains`)}" class="icon-ccw"></button>
+        <button id="${_}Replace" data-tip="${n(`Re-place the relief the rules claim, to apply the edits`)}" class="icon-arrows-cw"></button>
+      </div>
+    </div>`),u({dialogId:_,columns:y,onUpdate:()=>s(_,{width:`fit-content`,position:v})});let e=i(`${_}Body`);e.addEventListener(`change`,e=>E(e.target)),e.addEventListener(`click`,e=>O(e.target)),$(e).sortable({items:`div.states`,handle:`.icon-resize-vertical`,containment:`parent`,axis:`y`,update:A}),i(`${_}Add`).addEventListener(`click`,j),i(`${_}Restore`).addEventListener(`click`,M),i(`${_}Replace`).addEventListener(`click`,N),S(),$(`#${_}`).dialog({title:n(`Relief Rules`),width:`fit-content`,resizable:!1,position:v,close:()=>o(_)})}function S(){let r=i(`${_}Body`),o=(e,t,n)=>`<input type="number" data-field="${e}" value="${t??``}" ${n} />`,s=(e,{min:t,max:n},r)=>`${o(`${e}.min`,t,r)}–${o(`${e}.max`,n,r)}`;r.innerHTML=options.map.relief.rules.map((r,i)=>`<div class="states" data-index="${i}">
+      <span data-col="reorder" data-tip="${n(`Drag to check the rule earlier or later`)}" class="icon-resize-vertical"></span>
+      <div data-col="name"><input data-field="name" value="${e(r.name)}" data-tip="${n(`Name`)}" /></div>
+      <div data-col="height" data-tip="${n(`Height range: {{min}} to {{max}}`,{min:a(r.height.min),max:a(r.height.max)})}">${s(`height`,r.height,`min="20" max="100" step="1"`)}</div>
+      <div data-col="temperature" data-tip="${t(n(`Temperature range in °C`),n(`An empty bound is open`))}">${s(`temperature`,r.temperature,`step="1" placeholder="any"`)}</div>
+      <div data-col="biomes"><span class="ruleBiomes pointer" data-tip="${t(`${n(`Biomes`)}: ${g(r.biomes,pack.biomes)}`,n(`Click to change`))}">${C(r)}</span></div>
+      <div data-col="size" data-tip="${n(`Icon size at the lowest height, growing with height up to the second value`)}">${s(`size`,r.size,`min="0.1" step="0.1"`)}</div>
+      <div data-col="relief">${d(r.icons,r.density,`rulePool`)}</div>
+      <span data-col="remove" data-tip="${n(`Remove`)}" class="icon-trash-empty"></span>
+    </div>`).join(``)||`<p class="empty">${n(`No rules: all land takes its biome's relief pool`)}</p>`,f(r,styles.relief.options.set)}var C=({biomes:e})=>e?.length?e.length===1?pack.biomes[e[0]]?.name??`1 biome`:`${e.length} biomes`:`all`,w=e=>options.map.relief.rules[Number(e.closest(`.states`)?.dataset.index)],T=()=>{Options.save(),S()};function E(e){let t=w(e),n=e.dataset.field;if(t&&n){if(n===`name`)t.name=e.value.trim()||t.name;else{let[i,a]=n.split(`.`),o=e.value===``?null:Number(e.value);i===`temperature`?t.temperature[a]=o===null?null:Math.round(o):i===`height`&&o!==null?t.height[a]=r(Math.round(o),20,100):i===`size`&&o&&(t.size[a]=Math.max(.1,o)),D(t[i],a)}T()}}function D(e,t){let{min:n,max:r}=e;n===null||r===null||n<=r||(t===`min`?e.max=n:e.min=r)}function O(e){let t=w(e);t&&(e.closest(`.rulePool`)?m.open({rule:t,onApply:S}):e.closest(`.ruleBiomes`)?k(t):e.classList.contains(`icon-trash-empty`)&&(options.map.relief.rules.splice(options.map.relief.rules.indexOf(t),1),T()))}function k(e){h({title:n(`Limit rule`),heading:n(`Biomes the {{rule}} rule claims`,{rule:e.name}),items:pack.biomes,allowed:e.biomes,onApply:t=>{t.length?e.biomes=t:delete e.biomes,T()}})}function A(){let e=options.map.relief.rules,t=i(`${_}Body`).querySelectorAll(`.states`);options.map.relief.rules=Array.from(t,t=>e[Number(t.dataset.index)]),T()}function j(){options.map.relief.rules.push({name:n(`New rule`),height:{min:50,max:100},temperature:{min:null,max:null},icons:{hill:{weight:1}},density:100,size:{min:8,max:12}}),T()}function M(){c({title:n(`Restore relief rules`),message:n(`Replace the relief rules with the default hills and mountains?`),confirm:n(`Restore`),onConfirm:()=>{options.map.relief.rules=Relief.getDefaultRules(),T()}})}function N(){p(n(`the cells the rules claim`),e=>!!Relief.claim(e))}var P={open:x};export{P as ReliefRulesEditor};

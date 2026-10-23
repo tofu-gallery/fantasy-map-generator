@@ -1,0 +1,13 @@
+import{f as e,r as t}from"./index-CuUJKJN8.js";import{z as n}from"./utils-394NS37_.js";import{t as r}from"./layers-CpGI7aJd.js";import{i}from"./emblems-generator-B3pPl-l-.js";import{i as a}from"./tooltips-7PimaK30.js";import{t as o}from"./controllers-lOfLnkBO.js";import{c as s,i as c}from"./dialog-helpers-kMHr89OS.js";var l=`markersSettings`;function u(){customization||(c(l),n(`dialogs`).insertAdjacentHTML(`beforeend`,`<div id="${l}" class="dialog"></div>`),f(),$(`#${l}`).dialog({resizable:!1,title:t(`Markers generation settings`),maxHeight:600,position:{my:`left top`,at:`left+10 top+10`,of:`svg`,collision:`fit`},buttons:{[t(`Regenerate`)]:function(){d(),Markers.regenerate(),r.draw(`markers`),s(),$(this).dialog(`close`)},[t(`Close`)]:function(){$(this).dialog(`close`)}},open:function(){let e=$(this).dialog(`widget`).find(`.ui-dialog-buttonset > button`);e[0].addEventListener(`mousemove`,()=>a(t(`Apply changes and regenerate markers`))),e[1].addEventListener(`mousemove`,()=>a(t(`Close the window`)))},close:p}))}function d(){let e=n(l).querySelectorAll(`tbody > tr`),t=Array.from(e).map(e=>{let t=e.querySelector(`.type`),n=e.querySelector(`.changeIcon`),r=e.querySelector(`.multiplier`);if(!t||!n||!r)throw Error(`Invalid markers configuration row`);return{type:t.value,icon:n.dataset.icon??``,multiplier:r.valueAsNumber}});Markers.setConfig(Markers.getConfig().map((e,n)=>({...e,...t[n]})))}function f(){let r=`<thead style='font-weight:bold'><tr>
+    <td data-tip="${t(`Name`)}">${t(`Type`)}</td>
+    <td data-tip="${t(`Marker icon`)}">${t(`Icon`)}</td>
+    <td data-tip="${t(`Marker number multiplier`)}">${t(`Multiplier`)}</td>
+    <td data-tip="${t(`Number of markers of that type on the current map`)}">${t(`Number`)}</td>
+  </tr></thead>`,a=Markers.getConfig().map(({type:n,icon:r,multiplier:a})=>`<tr>
+      <td><input class="type" value="${n}" /></td>
+      <td>
+        <button class="changeIcon" data-icon="${e(r)}" data-tip="${t(`Change the icon`)}" style="font-size: 1.2em">${i.html(r)}</button>
+      </td>
+      <td><input class="multiplier" type="number" min="0" max="100" step="0.1" value="${a}" /></td>
+      <td style="text-align:center">${pack.markers.filter(e=>e.type===n).length}</td>
+    </tr>`),s=n(l);s.innerHTML=`<table class="table">${r}<tbody>${a.join(``)}</tbody></table>`,s.querySelectorAll(`button.changeIcon`).forEach(e=>{e.addEventListener(`click`,()=>{o.IconPicker.open({current:e.dataset.icon??``,onPick:t=>{e.dataset.icon=t,e.innerHTML=i.html(t)}})})})}function p(){c(l)}var m={open:u};export{m as MarkersSettings};

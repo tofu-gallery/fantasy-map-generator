@@ -1,0 +1,49 @@
+import{n as e,r as t,u as n}from"./index-CuUJKJN8.js";import{B as r,D as i,E as a,H as o,bt as s,dn as c,z as l}from"./utils-394NS37_.js";import{j as u,t as d}from"./layers-CpGI7aJd.js";import{t as f}from"./sum-BpJJqxFM.js";import{t as p}from"./csv-BZ59UuP0.js";import{i as m}from"./emblems-generator-B3pPl-l-.js";import{S as h}from"./unitUtils-B91DAWIJ.js";import{i as g,t as _}from"./tooltips-7PimaK30.js";import{t as v}from"./state-B2hBYDzv.js";import{t as y}from"./controllers-lOfLnkBO.js";import{i as b,l as x,n as S}from"./dialog-helpers-kMHr89OS.js";import{t as C}from"./viewbox-events-DpWtTLWO.js";import{t as w}from"./tags-4fjWFj3G.js";import{i as T,r as E}from"./app-C3meBrse.js";import{a as D,i as O,n as k,r as A}from"./table-CEa9eCSl.js";var j=`regimentsOverview`,M={my:`right top`,at:`right-10 top+10`,of:`svg`,collision:`fit`},N,P=[],F=A({getData:V,onUpdate:U});function I(e){customization||(N=v.get(j,`filters`,()=>({stateId:-1,search:``})),N.search??=``,N.stateId??=-1,S(`.stable`),d.show(`military`),e!==void 0&&(N.stateId=e),L(),G(),F.reset(),$(`#regimentsOverview`).dialog({title:t(`Regiments Overview`),resizable:!1,width:`fit-content`,close:R,position:M}))}function L(){P=B(),b(`regimentsOverview`);let e=`<div id="${j}" class="dialog stable editorDialog">
+      <div id="regimentsBody" class="table" data-type="absolute">
+        ${O({dialogId:j,columns:P})}
+      </div>
+      <div id="regimentsFilters" class="editorFilters">
+        <label for="regimentsSearch" data-tip="${t(`Filter by name, state, or tag`)}">
+          ${t(`Search`)}: <input id="regimentsSearch" type="search" />
+        </label>
+        <label for="regimentsFilter" data-tip="${t(`Select state`)}">
+          ${t(`State`)}: <select id="regimentsFilter"></select>
+        </label>
+      </div>
+      <div id="regimentsFooter" class="totalLine"></div>
+      <div id="regimentsBottom" class="editorToolbar">
+        <button id="regimentsOverviewRefresh" data-tip="${t(`Refresh`)}" class="icon-cw"></button>
+        <button
+          id="regimentsPercentage"
+          data-tip="${t(`Toggle percentage / absolute values views`)}"
+          class="icon-percent"
+        ></button>
+        <button id="regimentsAddNew" data-tip="${t(`Add`)}" class="icon-user-plus"></button>
+        <button
+          id="regimentsExport"
+          data-tip="${t(`Save data as a CSV file`)}"
+          class="icon-download"
+        ></button>
+      </div>
+    </div>`;l(`dialogs`).insertAdjacentHTML(`beforeend`,e),l(`regimentsSearch`).value=N.search,E(j,F.reset),k({dialogId:j,columns:P,onUpdate:()=>x(j,{width:`fit-content`,position:M})});let n=l(`regimentsBody`);l(`regimentsOverviewRefresh`).addEventListener(`click`,H),l(`regimentsPercentage`).addEventListener(`click`,J),l(`regimentsAddNew`).addEventListener(`click`,Y),l(`regimentsExport`).addEventListener(`click`,Z),l(`regimentsSearch`).addEventListener(`input`,e=>{N.search=e.target.value,v.set(j,`filters`,N),F.reset()}),l(`regimentsFilter`).addEventListener(`change`,e=>{N.stateId=+e.target.value,v.set(j,`filters`,N),F.reset()}),n.addEventListener(`click`,async e=>{let t=e.target.closest(`.regimentVisibility`);if(t){let e=t.closest(`.states`),n=+e.dataset.s,r=+e.dataset.id,i=pack.states[n]?.military?.find(e=>e.i===r);i&&(i.hidden=!i.hidden,t.className=`regimentVisibility pointer ${i.hidden?`icon-eye-off`:`icon-eye`}`,d.draw(`military`));return}let n=e.target.closest(`[data-edit-regiment]`);n&&y.RegimentEditor.open(`#${n.dataset.editRegiment}`)})}function R(){l(`regimentsAddNew`).classList.contains(`pressed`)&&Y(),$(`#regimentsOverview`).dialog(`destroy`),l(`regimentsOverview`).remove()}var z=e=>`unit:${e}`;function B(){let r=options.map.military.units.map(r=>({key:z(r.name),label:n(r.name.replace(/_/g,` `)),width:`5em`,mobileHidden:!0,tip:e(t(`{{unit}} units number`,{unit:r.name}),t(`Click to sort`)),sortBy:e=>e.regiment.u[r.name]||0}));return[{key:`color`,width:`1.2em`,permanent:!0},{key:`state`,label:t(`State`),width:`7em`,permanent:!0,sortBy:e=>e.state.name||``,sortType:`alpha`},{key:`emblem`,width:`1.2em`},{key:`name`,label:t(`Name`),width:`15em`,permanent:!0,sortBy:e=>e.regiment.name||``,sortType:`alpha`},...r,{key:`total`,label:t(`Total`),width:`5em`,defaultSort:`desc`,sortBy:e=>e.regiment.a,tip:e(t(`Total military personnel (not considering crew)`),t(`Click to sort`))},{key:`tags`,label:t(`Tags`),width:`10em`,hidden:!0,sortBy:e=>w.format(e.regiment.tags),sortType:`alpha`},{key:`visibility`,width:`1.4em`,sortBy:e=>+!!e.regiment.hidden,tip:t(`Toggle visibility`)},{key:`edit`,width:`1.4em`,permanent:!0}]}function V(){let e=[],t=N.search.toLowerCase().trim();for(let n of pack.states)if(n.i&&!n.removed&&n.military?.length&&(N.stateId===-1||n.i===N.stateId))for(let r of n.military)(!t||w.matches(t,r.name,r.tags,[n.name||``]))&&e.push({state:n,regiment:r});return T(j,e,P)}function H(){G(),F.refresh()}function U(e){let r=l(`regimentsBody`),i=r.dataset.type===`percentage`,a=Object.fromEntries(options.map.military.units.map(t=>[t.name,f(e.all.map(e=>e.regiment.u[t.name]||0))])),o=f(e.all.map(e=>e.regiment.a)),s=(e,t)=>`${Math.round(t?e/t*100:0)}%`,c=e.rows.map(({state:e,regiment:r})=>{let c=options.map.military.units.map(e=>{let o=r.u[e.name]||0;return`<div data-col="${z(e.name)}" data-tip="${t(`{{unit}} units number`,{unit:n(e.name)})}">${i?s(o,a[e.name]):o}</div>`}).join(``),l=`<span data-col="emblem" data-tip="${t(`Regiment's emblem`)}">${m.html(r.icon??``)}</span>`;return`<div class="states" data-id="${r.i}" data-s="${e.i}">
+        <fill-box data-col="color" data-tip="${e.fullName}" fill="${e.color}" disabled></fill-box>
+        <input data-col="state" data-tip="${e.fullName}" value="${e.name}" readonly />
+        ${l}
+        <input data-col="name" data-tip="${t(`Name`)}" value="${r.name}" readonly />
+        ${c}
+        <div data-col="total" data-tip="${t(`Total military personnel (not considering crew)`)}" style="font-weight:bold">${i?s(r.a,o):r.a}</div>
+        <div data-col="tags">
+          <input
+            data-tip="${t(`Regiment tags (comma-separated)`)}"
+            class="regimentTags"
+            value="${w.format(r.tags)}"
+            placeholder="${t(`Tags`)}"
+            autocorrect="off"
+            spellcheck="false"
+          />
+        </div>
+        <span data-col="visibility" data-tip="${t(`Toggle visibility`)}" class="regimentVisibility pointer ${r.hidden?`icon-eye-off`:`icon-eye`}"></span>
+        <span data-col="edit" data-tip="${t(`Edit Regiment`)}" data-edit-regiment="regiment${e.i}-${r.i}" class="icon-pencil pointer"></span>
+      </div>`}).join(``);r.querySelectorAll(`:scope > .states`).forEach(e=>{e.remove()}),r.insertAdjacentHTML(`beforeend`,c);let u=l(`regimentsFooter`);u.innerHTML=`<div style="margin-left:4px">${t(`Regiments`)}:&nbsp;${e.all.length}</div>
+    ${options.map.military.units.map(e=>`<div data-col="${z(e.name)}" style="margin-left:12px">${n(e.name)}:&nbsp;${h(a[e.name])}</div>`).join(``)}
+    <div data-col="total" style="margin-left:12px">${t(`Total`)}:&nbsp;${h(o)}</div>`,D(u,e,F.goto),r.querySelectorAll(`:scope > .states`).forEach(e=>{e.addEventListener(`mouseenter`,K),e.addEventListener(`mouseleave`,q)}),r.querySelectorAll(`.regimentTags`).forEach(e=>{e.addEventListener(`change`,W)}),x(j,{width:`fit-content`,position:M})}function W(){let e=this.closest(`.states`),t=Number(e.dataset.s),n=Number(e.dataset.id),r=pack.states[t]?.military?.find(e=>e.i===n);r&&(w.set(r,this.value),this.value=w.format(r.tags),N.search&&F.refresh())}function G(){N.stateId!==-1&&!pack.states.some(e=>e.i===N.stateId&&!e.removed)&&(N.stateId=-1);let e=l(`regimentsFilter`);e.options.length=0,e.options.add(new Option(t(`All`),`-1`,!1,N.stateId===-1)),pack.states.filter(e=>e.i&&!e.removed).sort((e,t)=>e.name>t.name?1:-1).forEach(t=>{e.options.add(new Option(t.name,String(t.i),!1,t.i===N.stateId))}),v.set(j,`filters`,N)}function K(e){let t=e.target,n=+t.dataset.s,r=+t.dataset.id;!customization&&n&&c(`#armies > g > g#regiment${n}-${r}`).transition().duration(2e3).style(`fill`,`#ff0000`)}function q(e){let t=e.target,n=+t.dataset.s,r=+t.dataset.id;c(`#armies > g > g#regiment${n}-${r}`).transition().duration(1e3).style(`fill`,null)}function J(){let e=l(`regimentsBody`);e.dataset.type=e.dataset.type===`absolute`?`percentage`:`absolute`,F.refresh()}function Y(){let e=l(`regimentsAddNew`);e.classList.toggle(`pressed`),e.classList.contains(`pressed`)?(c(`#viewbox`).style(`cursor`,`crosshair`).on(`click`,X),g(t(`Click on map to create new regiment or fleet`),!0),r(`regimentAdd`)?.classList.add(`pressed`)):(_(),C(),H(),r(`regimentAdd`)?.classList.remove(`pressed`))}function X(e){let n=N.stateId;if(n===-1){g(t(`Please select state from the list`),!1,`error`);return}let r=o(e,this),i=Pack.findCell(r[0],r[1]);if(i===void 0)return;let a=pack.cells.p[i][0],c=pack.cells.p[i][1],l=pack.states[n].military,d={a:0,cell:i,i:l.length?s(l).i+1:0,n:+(pack.cells.h[i]<20),u:{},x:a,y:c,bx:a,by:c,state:n,icon:m.glyph(`🛡️`),name:``,tags:[],t:0,s:0,type:``};d.name=Military.getName(d,l),l.push(d),Military.generateNote(d,pack.states[n]),u(d,n),Y()}function Z(){let e=options.map.military.units.map(e=>e.name),{coordinates:t}=options.map.geography,{width:r,height:o}=options.map.graph,s=[`State`,`Id`,`Icon`,`Name`,...e.map(e=>n(e)),`Total`,`Tags`,`X`,`Y`,`Latitude`,`Longitude`,`Base X`,`Base Y`,`Base Latitude`,`Base Longitude`],c=pack.states.filter(e=>e.i&&!e.removed).flatMap(n=>(n.military??[]).map(s=>[n.name,s.i,m.glyphText(s.icon??``)??s.icon,s.name,...e.map(e=>s.u[e]),s.t,w.format(s.tags),s.x,s.y,a(s.y,t,o,2),i(s.x,t,r,2),s.bx,s.by,a(s.by,t,o,2),i(s.bx,t,r,2)]));p.download(`Regiments`,s,c)}var Q={open:I,exportCsv:Z};export{Q as RegimentsOverview};
